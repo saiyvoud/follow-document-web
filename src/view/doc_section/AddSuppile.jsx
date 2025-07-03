@@ -1,0 +1,79 @@
+import React, { useEffect, useState } from 'react'
+import { HiUsers } from 'react-icons/hi2'
+import { useNavigate, useParams } from 'react-router-dom';
+import { FaSave } from "react-icons/fa";
+import { InserPartDemand, UpdatePartDemand } from '../../api/part_demand';
+import { ToastSuccess, ToastError } from '../../lib/toast';
+import Swal from 'sweetalert2';
+import { InserPartSuppile } from '../../api/part_suppile';
+
+const AddSuppile = () => {
+    const navigate = useNavigate();
+
+
+    const [partSuppile, setPartSuppile] = useState({ part_suppile_id: "", part_suppile_name: "" });
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        Swal.fire({
+            icon: "question",
+            title: "ເພີ່ມຄະນະ",
+            showCancelButton: true,
+            confirmButtonText: "ຕົກລົງ",
+            cancelButtonText: 'ຍົກເລີກ',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                //update data
+                const res = await InserPartSuppile({ part_suppile_name: partSuppile.part_suppile_name });
+                if (res.status === 201) {
+                    navigate("/section-view");
+                    ToastSuccess("ເພີ່ມສຳເລັດ")
+                } else if (res.response.status === 403) {
+                    ToastError("ບໍ່ມີສິດ");
+                }
+                else {
+                    ToastError(res?.response?.data?.error)
+                }
+            }
+        });
+
+    }
+    return (
+        <div className='mt-5 p-3 w-full bg-white rounded-lg'>
+            <div className='flex justify-start items-center gap-3 p-3'>
+                <HiUsers size={20} className=' text-teal-500' />
+                <span className=' text-teal-500 text-lg font-bold'>ເພີ່ມພາກສ່ວນ ສະໜອງເອກະສານ</span>
+            </div>
+            <div className=' w-[500px] mx-auto'>
+                <form onSubmit={handleSubmit}>
+                    <div className='mt-5'>
+                        <p>ຊື່ພາກສ່ວນ</p>
+                        <input
+                            type="text"
+                            className='w-full border border-gray-300 rounded-md p-2'
+                            value={partSuppile.part_suppile_name}
+                            onChange={(e) => setPartSuppile({ ...partSuppile, part_suppile_name: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className='mt-5 flex justify-end items-center gap-3'>
+                        <button
+                            type='submit'
+                            className=' flex justify-start items-center gap-1 bg-blue-500 p-2 text-white rounded-lg'>
+                            <FaSave />
+                            <span className='mx-2'>ບັນທຶກ</span>
+                        </button>
+                        <div
+                            onClick={() => navigate(-1)}
+                            className=' flex justify-start items-center gap-1 bg-slate-400 p-2 text-white rounded-lg'>
+                            <span className='mx-2'>ປິດ</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    )
+}
+
+export default AddSuppile

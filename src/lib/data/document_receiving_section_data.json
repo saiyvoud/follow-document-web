@@ -1,0 +1,29 @@
+[
+    {
+        "id":"RC001",
+        "section_name":"ຫ້ອງການວິທະຍາສາດ",
+        "manager":"ທ່ານ ສົມພອນ ວົງສາ",
+        "phne":"020 56123456789",
+        "email":"somphone@gmail.com",
+        "faculty":"Engineering",
+        "status":"ເປີດໃຊ້ງານ"
+    },
+    {
+        "id":"RC002",
+        "section_name":"ຫ້ອງການວິທະຍາສາດ",
+        "manager":"ທ່ານ ສົມພອນ ວົງສາ",
+        "phne":"020 56123456789",
+        "email":"somphone@gmail.com",
+        "faculty":"Engineering",
+        "status":"ເປີດໃຊ້ງານ"
+    },
+    {
+        "id":"RC003",
+        "section_name":"ຫ້ອງການວິທະຍາສາດ",
+        "manager":"ທ່ານ ສົມພອນ ວົງສາ",
+        "phne":"020 56123456789",
+        "email":"somphone@gmail.com",
+        "faculty":"Engineering",
+        "status":"ເປີດໃຊ້ງານ"
+    }
+]

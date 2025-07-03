@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodEat - Delicious Food Waiting For You</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6f00;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #ff6f00;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            padding: 50px;
+            gap: 50px;
+        }
+        .hero-content {
+            flex: 1;
+        }
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .hero-description {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn-menu {
+            background-color: #ff6f00;
+            color: white;
+        }
+        .btn-table {
+            background-color: white;
+            color: #ff6f00;
+            border: 1px solid #ff6f00;
+        }
+        .hero-image {
+            flex: 1;
+        }
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Top List Section */
+        .top-list {
+            padding: 50px;
+            text-align: center;
+        }
+        .top-list-title {
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        .menu-items {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        .menu-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 250px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .menu-item:hover {
+            transform: scale(1.05);
+        }
+        .menu-item img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .menu-item-price {
+            color: #ff6f00;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .menu-item-add {
+            background-color: #ff6f00;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        /* Potatoes Section */
+        .potatoes-section {
+            display: flex;
+            align-items: center;
+            padding: 50px;
+            gap: 50px;
+        }
+        .potatoes-content {
+            flex: 1;
+        }
+        .potatoes-image {
+            flex: 1;
+        }
+        .potatoes-image img {
+            max-width: 100%;
+            border-radius: 20%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Services Section */
+        .services {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .service-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .service-icon {
+            font-size: 2rem;
+            color: #ff6f00;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">FOODEAT</div>
+        <nav class="nav-links">
+            <a href="#">HOME</a>
+            <a href="#">MENU</a>
+            <a href="#">ABOUT</a>
+            <i class="fas fa-globe"></i>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Delicious Food Is Waiting For You</h1>
+            <p class="hero-description">Our team of registered nurses and skilled healthcare professionals provide in-home nursing</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-menu">Food Menu</a>
+                <a href="#" class="btn btn-table">Book a Table</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://www.bowlofdelicious.com/wp-content/uploads/2024/01/creamy-chicken-rice-soup-square-500x500.jpg" alt="Delicious Bowl">
+        </div>
+    </section>
+
+    <!-- Top List Section -->
+    <section class="top-list">
+        <h2 class="top-list-title">Top List</h2>
+        <p>Our mainstay menu</p>
+        <div class="menu-items">
+            <div class="menu-item">
+                <img src="https://i.pinimg.com/736x/bc/2d/00/bc2d005e7a35f33a23ffde7c0e789547.jpg" alt="Noodles Three">
+                <h3>Noodles Three</h3>
+                <p>White plate with dried shrimps</p>
+                <div class="menu-item-price">12$</div>
+                <button class="menu-item-add">Add +</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://media.blueapron.com/culinary/recipe/30588/square_image/399225fab179a2b8f4fd4c9490fae19b.jpg?format=pjpg&quality=80&width=1300" alt="Noodles One">
+                <h3>Noodles One</h3>
+                <p>Noodles spicy boil with seafood and pork in hot pot</p>
+                <div class="menu-item-price">20$</div>
+                <button class="menu-item-add">Add +</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://eightforestlane.com/wp-content/uploads/2022/02/Sweet-and-Spicy-Noodles_SQ-1.jpg" alt="Noodles Two">
+                <h3>Noodles Two</h3>
+                <p>Noodles prawn spicy soup</p>
+                <div class="menu-item-price">16$</div>
+                <button class="menu-item-add">Add +</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Potatoes Section -->
+    <section class="potatoes-section">
+        <div class="potatoes-content">
+            <h2>Best Potatoes For French Fries</h2>
+            <p>Russet potatoes are ideal. Since they're dense, they don't contain as much water inside, which allows them to get extra crispy.</p>
+        </div>
+        <div class="potatoes-image">
+            <img src="https://tiaclara.com/wp-content/uploads/2022/11/broasted-oven-fried-potatoes-DSCH9721.jpg" alt="French Fries">
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="service-item">
+            <i class="fas fa-laptop service-icon"></i>
+            <span>Online Booking</span>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-utensils service-icon"></i>
+            <span>Catering Service</span>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-id-card service-icon"></i>
+            <span>Membership</span>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-truck service-icon"></i>
+            <span>Delivery Service</span>
+        </div>
+    </section>
+
+    <script>
+        // Add interactivity to menu items
+        document.querySelectorAll('.menu-item-add').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemName = this.closest('.menu-item').querySelector('h3').textContent;
+                alert(`Added ${itemName} to your cart!`);
+            });
+        });
+
+        // Navigation links interactivity
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert(`Navigating to ${this.textContent} page`);
+            });
+        });
+    </script>
+</body>
+</html>

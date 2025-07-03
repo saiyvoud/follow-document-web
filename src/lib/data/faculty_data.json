@@ -1,0 +1,66 @@
+[
+    {
+        "id":"F001",
+        "faculty_name":"ຄະນະວິທະຍາສາດທຳມະຊາດ",
+        "director":"ທ່ານ ສົມພອນ ວົງສາ",
+        "num_epartment":6,
+        "num_staff":20,
+        "status":"ເປີດໃໍຊ້ງານ"
+    },
+    {
+        "id":"F002",
+        "faculty_name":"ຄະນະສາດເຂົ້າໃນ",
+        "director":"ທ່ານ ສົມພອນ ວົງສາ",
+        "num_epartment":6,
+        "num_staff":20,
+        "status":"ເປີດໃໍຊ້ງານ"
+    },
+    {
+        "id":"F003",
+        "faculty_name":"ຄະນະແນວແນນ",
+        "director":"ທ່ານ ສົມພອນ ວົງສາ",
+        "num_epartment":6,
+        "num_staff":20,
+        "status":"ເປີດໃໍຊ້ງານ"
+    },
+    {
+        "id":"F004",
+        "faculty_name":"ຄະນະແນນແນນ",
+        "director":"ທ່ານ ສົມພອນ ວົງສາ",
+        "num_epartment":6,
+        "num_staff":20,
+        "status":"ເປີດໃໍຊ້ງານ"
+    },
+    {
+        "id":"F005",
+        "faculty_name":"ຄະນະແນນແນນ",
+        "director":"ທ່ານ ສົມພອນ ວົງສາ",
+        "num_epartment":6,
+        "num_staff":20,
+        "status":"ເປີດໃໍຊ້ງານ"
+    },
+    {
+        "id":"F006",
+        "faculty_name":"ຄະນະແນນແນນ",
+        "director":"ທ່ານ ສົມພອນ ວົງສາ",
+        "num_epartment":6,
+        "num_staff":20,
+        "status":"ເປີດໃໍຊ້ງານ"
+    },
+    {
+        "id":"F005",
+        "faculty_name":"ຄະນະແນນແນນ",
+        "director":"ທ່ານ ສົມພອນ ວົງສາ",
+        "num_epartment":6,
+        "num_staff":20,
+        "status":"ເປີດໃໍຊ້ງານ"
+    },
+    {
+        "id":"F006",
+        "faculty_name":"ຄະນະແນນແນນ",
+        "director":"ທ່ານ ສົມພອນ ວົງສາ",
+        "num_epartment":6,
+        "num_staff":20,
+        "status":"ເປີດໃໍຊ້ງານ"
+    }
+]

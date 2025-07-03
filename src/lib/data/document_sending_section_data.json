@@ -1,0 +1,30 @@
+[
+    {
+        "id":"SD001",
+        "section_name":"ຫ້ອງການວິທະຍາສາດ",
+        "type":"ອົງການລັດ",
+        "person":"ທ່ານ ສົມພອນ ວົງສາ",
+        "phne":"020 56123456789",
+        "email":"somphone@gmail.com",
+        "status":"ເປີດໃຊ້ງານ"
+    },
+    {
+        "id":"SD003",
+        "section_name":"ຫ້ອງການວິທະຍາສາດ",
+        "type":"ອົງການລັດ",
+        "person":"ທ່ານ ສົມພອນ ວົງສາ",
+        "phne":"020 56123456789",
+        "email":"somphone@gmail.com",
+        "status":"ເປີດໃຊ້ງານ"
+    },
+    {
+        "id":"SD003",
+        "section_name":"ຫ້ອງການວິທະຍາສາດ",
+        "type":"ອົງການລັດ",
+        "person":"ທ່ານ ສົມພອນ ວົງສາ",
+        "phne":"020 56123456789",
+        "email":"somphone@gmail.com",
+        "status":"ເປີດໃຊ້ງານ"
+    }
+
+]

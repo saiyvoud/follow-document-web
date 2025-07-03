@@ -1,0 +1,33 @@
+[
+    {
+        "id":"U001",
+        "firstname":"John Doe",
+        "lastname":"Doe",
+        "email":"",
+        "phone":"1234567890",
+        "faculty":"Engineering",
+        "role":"Student",
+        "status":"ເປີດໃຊ້ງານ"
+    },
+    {
+        "id":"U002",
+        "firstname":"John Doe",
+        "lastname":"Doe",
+        "email":"",
+        "phone":"1234567890",
+        "faculty":"Engineering",
+        "role":"Student",
+        "status":"ເປີດໃຊ້ງານ"
+    },
+    {
+        "id":"U003",
+        "firstname":"John Doe",
+        "lastname":"Doe",
+        "email":"",
+        "phone":"1234567890",
+        "faculty":"Engineering",
+        "role":"Student",
+        "status":"ເປີດໃຊ້ງານ"
+    }
+
+]
