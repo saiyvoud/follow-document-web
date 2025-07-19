@@ -1,5 +1,5 @@
 import React from 'react'
-import { HiOutlineClipboardDocumentList, HiHome, HiUser, HiOutlineBuildingLibrary, HiUserGroup, HiUsers } from "react-icons/hi2";
+import { HiOutlineClipboardDocumentList, HiHome, HiUser, HiOutlineBuildingLibrary, HiUserGroup, HiUsers,HiDocument } from "react-icons/hi2";
 import { HiOutlineDocumentArrowDown } from "react-icons/hi2";
 import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
 import logo from "../assets/logo.jpeg";
@@ -39,9 +39,13 @@ const Sibebar = () => {
         {
             title: "ສິດເຂົ້າໃຊ້", icon: <HiUserGroup className="mx-2 w-5 h-5 min-w-[20px]" />, path: "/role",
         },
+        {
+            title: "ລາຍງານ", icon: <HiDocument className="mx-2 w-5 h-5 min-w-[20px]" />, path: "/report",
+        },
     ];
     return (
         <div className='w-full '>
+           
             {/* SibeBar */}
             <div className='min-h-screen bg-slate-800'>
                 <div className='py-5'>
@@ -112,6 +116,15 @@ const Sibebar = () => {
                             className={location.pathname.startsWith(data[7].path) ? 'flex bg-white rounded-lg px-2 py-2 mx-2 text-slate-800' : 'flex  rounded-lg px-2 py-2 mx-2 text-white ease-in-out duration-200 hover:border-b hover:border-white'}>
                             {data[7].icon}
                             <h2 className='text-center px-2'>{data[7].title}</h2>
+                        </NavLink>
+                    }
+                    {
+                        (role_name === "admin" ) &&
+                        <NavLink
+                            to={data[8].path}
+                            className={location.pathname.startsWith(data[8].path) ? 'flex bg-white rounded-lg px-2 py-2 mx-2 text-slate-800' : 'flex  rounded-lg px-2 py-2 mx-2 text-white ease-in-out duration-200 hover:border-b hover:border-white'}>
+                            {data[8].icon}
+                            <h2 className='text-center px-2'>{data[8].title}</h2>
                         </NavLink>
                     }
                     {/* {data.map((item, index) => {

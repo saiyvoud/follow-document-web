@@ -50,9 +50,9 @@ const ListDocIn = (props) => {
                     className=' w-[20%] border-2 border-gray-300 rounded-lg p-2'
                 >
                     <option value="all">ທຸກສະຖານະ</option>
-                    <option value="success">success</option>
-                    <option value="await">await</option>
-                    <option value="fail">fail</option>
+                    <option value="ສຳເລັດ">ສຳເລັດ</option>
+                    <option value="ລໍຖ້າ">ລໍຖ້າ</option>
+                    <option value="ຍົກເລີກ">ຍົກເລີກ</option>
                 </select>
                 {/* <button type='submit' className=' bg-blue-500 p-2 rounded-lg'><FaSearch size={25} color='white' /></button> */}
             </div>
@@ -63,11 +63,14 @@ const ListDocIn = (props) => {
                         <th className='border-2 border-gray-300 p-2 bg-slate-200'>ຊື່ເອກະສານ</th>
                         <th className='border-2 border-gray-300 p-2 bg-slate-200'>ຄຳອະທິບາຍເອກະສານ</th>
                         <th className='border-2 border-gray-300 p-2 bg-slate-200'>ວັນທີ່ສົ່ງເອກະສານ</th>
+                        <th className='border-2 border-gray-300 p-2 bg-slate-200'>ໄຟລແນບ</th>
                         <th className='border-2 border-gray-300 p-2 bg-slate-200'>ປະເພດເອກະສານ</th>
                         <th className='border-2 border-gray-300 p-2 bg-slate-200'>ພາກສ່ວນ</th>
-                        <th className='border-2 border-gray-300 p-2 bg-slate-200'>ຜູ້ຮັບຜິດຊອບ</th>
+                        <th className='border-2 border-gray-300 p-2 bg-slate-200'>ສົ່ງຕໍ່ຫາໃຜ</th>
+                        <th className='border-2 border-gray-300 p-2 bg-slate-200'>ຂໍ້ມູນຜູ້ຮັບ</th>
+                        <th className='border-2 border-gray-300 p-2 bg-slate-200'>ຂໍ້ມູນຕິດຕໍ່ຜູ້ຮັບ</th>
                         <th className='border-2 border-gray-300 p-2 bg-slate-200'>ຂໍ້ມູນຜູ້ສົ່ງ</th>
-                        <th className='border-2 border-gray-300 p-2 bg-slate-200'>ຂໍ້ມູນຕິດຕໍ່</th>
+                        <th className='border-2 border-gray-300 p-2 bg-slate-200'>ຂໍ້ມູນຕິດຕໍ່ຜູ້ສົ່ງ</th>
                         <th className='border-2 border-gray-300 p-2 bg-slate-200'>ສະຖານະ</th>
                         <th className='border-2 border-gray-300 p-2 bg-slate-200'>ການກະທຳ</th>
                     </thead>
@@ -81,15 +84,22 @@ const ListDocIn = (props) => {
                                     <td className=' p-2 text-center'>{item?.title}</td>
                                     <td className=' p-2 text-center'>{item?.description}</td>
                                     <td className=' p-2 text-center'>{TimestampToDate(item?.date)}</td>
-                                    <td className=' p-2 text-center'>{item?.docType}</td>
+                                    
+                                    <td className=' p-2 text-center'>
+                                    <a href={item.files} target="_blank" rel="noopener noreferrer" className='text-sky-600 h  hover: border-b-2 hover:border-sky-600'>ເບິ່ງໄຟຣແນບ</a>
+                                    </td>
+                                    <td className=' p-2 text-center'>{item?.docName}</td>
+                                    <td className=' p-2 text-center'>{item?.sendDoc}</td>
                                     <td className=' p-2 text-center'>{item?.name}</td>
-                                    <td className=' p-2 text-center'>{item?.part_demand_name}</td>
+                                    <td className=' p-2 text-center'>{item?.destinationName}</td>
+                                    <td className=' p-2 text-center'>{item?.destinationNumber}</td>
+                                   
                                     <td className=' p-2 text-center'>{item?.contactName}</td>
                                     <td className=' p-2 text-center'>{item?.contactNumber}</td>
                                  
                                     <td className=' p-2 text-center'>
-                                        {item.status === 'success' ? <span className=' p-1 rounded-lg text-green-500 font-bold bg-green-200'>{item.status}</span>
-                                            : item.status === 'await' ? <span className='p-1 rounded-lg text-yellow-500 font-bold bg-yellow-200'>{item.status}</span> :
+                                        {item.status === 'ສຳເລັດ' ? <span className=' p-1 rounded-lg text-green-500 font-bold bg-green-200'>{item.status}</span>
+                                            : item.status === 'ລໍຖ້າ' ? <span className='p-1 rounded-lg text-yellow-500 font-bold bg-yellow-200'>{item.status}</span> :
                                                 <span className='p-1 rounded-lg text-blue-500 font-bold bg-blue-200'>{item.status}</span>
                                         }
                                     </td>

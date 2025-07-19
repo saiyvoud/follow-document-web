@@ -26,47 +26,11 @@ import EditDemand from "../view/doc_section/EditDemand";
 import EditSuppile from "../view/doc_section/EditSuppile";
 import AddDemand from "../view/doc_section/AddDemand";
 import AddSuppile from "../view/doc_section/AddSuppile";
+import ReportView from "../view/report/report";
 
 const RouterPath = () => {
 
-    // const router = createBrowserRouter([
-    //     {
-    //         path: "/",
-    //         element: <DashboardView />
-    //     },
-    //     {
-    //         path: "/login",
-    //         element: <LoginView />
-    //     },
-    //     {
-    //         path: "/menu",
-    //         element: <LoginView />
-    //     },
-    //     {
-    //         path: "/history",
-    //         element: <LoginView />
-    //     },
-    //     {
-    //         path: "/promotion",
-    //         element: <LoginView />
-    //     },
-    //     {
-    //         path: "/setting",
-    //         element: <LoginView />
-    //     },
-    //     {
-    //         path: "/dashboard",
-    //         element:  <DashboardView/>
-    //     },
-    //     {
-    //         path: "/home",
-    //         element:  <PakechoRestaurantPOS/>
-    //     },
-
-    // ]);
-    //  ແປງ route ໃຫັໃໝ່
-    // ໃຫທຸກໜ້າເອີ້ນໃຊ້ sidebar ຍົກເວັ້ນ login
-
+  
     const MainLayout = () => {
         const navigate = useNavigate();
         const [isShowSideBar, setIsShowSideBar] = useState(true);
@@ -131,6 +95,7 @@ const RouterPath = () => {
                 { path: "/section-view/demand/add", element: <AddDemand /> },
                 { path: "/section-view/suppile/add", element: <AddSuppile /> },
                 { path: "/role", element: <MyRole /> },
+                { path: "/report", element: <ReportView /> },
 
             ],
         },

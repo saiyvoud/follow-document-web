@@ -14,17 +14,20 @@ export const SearchDocOut = async (key) => {
         return error
     }
 }
-export const InsertDocIn = async (title, part_demand_id, faculty_id, file, numberID,contactName,contactNumber,docType,date,description) => {
+export const InsertDocIn = async (title, faculty_id, file, numberID,contactName,contactNumber,date,description,destinationName,destinationNumber,sendDoc,document_type_id) => {
     try {
         const data = new FormData();
         data.append('title', title);
-        data.append('part_demand_id', part_demand_id);
+        data.append('part_demand_id', '');
         data.append('faculty_id', faculty_id);
         data.append('files', file);
         data.append('numberID', numberID);
         data.append('contactName', contactName);
         data.append('contactNumber', contactNumber);
-        data.append('docType', docType);
+        data.append('destinationName', destinationName);
+        data.append('destinationNumber', destinationNumber);
+        data.append('sendDoc', sendDoc);
+        data.append('document_type_id', document_type_id);
         data.append('date', date);
         data.append('description', description);
         return await api.post("/api/document_in/insert", data);

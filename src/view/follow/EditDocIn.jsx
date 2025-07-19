@@ -13,13 +13,14 @@ import {
 } from "../../api/document";
 import { ToastError, ToastSuccess } from "../../lib/toast";
 import Swal from "sweetalert2";
+import { GetDocumentType } from "../../api/documentType";
 
 const EditDocIn = () => {
   const { data } = useParams();
   const navigate = useNavigate();
   const decodedStr = decodeURIComponent(atob(data));
   const decodedObj = JSON.parse(decodedStr);
-
+  console.log(decodedObj);
   const [doc, setDoc] = useState({
     faculty_id: "",
     files: "",
@@ -27,10 +28,14 @@ const EditDocIn = () => {
     numberID: "",
     part_demand_id: "",
     part_demand_name: "",
+    destinationName: "",
+    destinationNumber: "",
+    sendDoc: "",
     phoneNumber: "",
     contactName: "",
     contactNumber: "",
-    docType: "",
+    docName: "",
+    document_type_id: "",
     date: "",
     description: "",
     status: "",
@@ -39,6 +44,9 @@ const EditDocIn = () => {
   const [facultys, setFacultys] = useState([{ faculty_id: "", name: "" }]);
   const [partDemands, setPartDemands] = useState([
     { part_demand_id: "", part_demand_name: "" },
+  ]);
+  const [docType, setDocumentType] = useState([
+    { document_type_id: "", docName: "" },
   ]);
   useEffect(() => {
     setDoc(decodedObj);
@@ -52,6 +60,10 @@ const EditDocIn = () => {
     const res2 = await GetAllPartDemand();
     if (res2.status === 200) {
       setPartDemands(res2?.data?.data);
+    }
+    const res3 = await GetDocumentType();
+    if (res3.status === 200) {
+      setDocumentType(res3?.data?.data);
     }
   };
   const handleSubmit = async () => {
@@ -67,14 +79,16 @@ const EditDocIn = () => {
         //update data
         const dataUpdate = {
           title: doc.title,
-          numberID: doc.numberID,
-          part_demand_id: doc.part_demand_id,
           faculty_id: doc.faculty_id,
-          docType: doc.docType,
-          date: doc.date,
-          description: doc.description,
+          numberID: doc.numberID,
           contactName: doc.contactName,
           contactNumber: doc.contactNumber,
+          date: doc.date,
+          description: doc.description,
+          destinationName: doc.destinationName,
+          destinationNumber: doc.destinationNumber,
+          sendDoc: doc.sendDoc,
+          documnet_type_id: doc.document_type_id,
         };
         const [update, x] = await Promise.all([
           UpdateDocIn(doc.document_in_id, dataUpdate),
@@ -142,7 +156,7 @@ const EditDocIn = () => {
                 />
               </div>
             </div>
-           
+
             <div className=" mt-5 flex gap-3">
               <div className="w-full">
                 <p>ຊື່ເອກະສານ</p>
@@ -170,29 +184,33 @@ const EditDocIn = () => {
                 />
               </div>
             </div>
+
             <div className=" mt-5">
               <p>ປະເພດເອກະສານ</p>
               <select
-                value={doc.docType}
-                onChange={(e) => setDoc({ ...doc, docType: e.target.value })}
+                value={doc.document_type_id}
+                onChange={(e) => setDoc({ ...doc, document_type_id: e.target.value })}
                 className="w-full border border-gray-300 rounded-md p-2"
                 required
               >
                 <option selected value="">
                   -- ເລືອກ --
                 </option>
-                <option selected value="ໃບສະເໜີ">
-                  ໃບສະເໜີ
-                </option>
-                <option selected value="ໃບນຳສົ່ງ">
-                  ໃບນຳສົ່ງ
-                </option>
-                <option selected value="ໃບລາຍງານ">
-                  ໃບລາຍງານ
-                </option>
-                <option selected value="ໃບລາພັກ">
-                  ໃບລາພັກ
-                </option>
+                {docType.map((item, index) => {
+                  return (
+                    <>
+                      {item.document_type_id === doc.document_type_id ? (
+                        <option key={index} selected value={item.document_type_id}>
+                          {item.docName}
+                        </option>
+                      ) : (
+                        <option key={index} value={item.document_type_id}>
+                          {item.docName}
+                        </option>
+                      )}
+                    </>
+                  );
+                })}
               </select>
             </div>
             <div className=" mt-5">
@@ -208,6 +226,22 @@ const EditDocIn = () => {
                   if (decodedObj.faculty_id !== item.faculty_id) {
                     return <option value={item.faculty_id}>{item.name}</option>;
                   }
+                })}
+              </select>
+            </div>
+            <div className=" mt-5">
+              <p>ສົ່ງຕໍ່ຫາໃຜ</p>
+              <select
+                value={doc.sendDoc}
+                onChange={(e) => setDoc({ ...doc, sendDoc: e.target.value })}
+                className="w-full border border-gray-300 rounded-md p-2"
+                required
+              >
+                <option selected value="ເລຂາອະທິການ">
+                  ເລຂາອະທິການ
+                </option>
+                {facultys.map((item) => {
+                  return <option value={item.name}>{item.name}</option>;
                 })}
               </select>
             </div>
@@ -239,35 +273,23 @@ const EditDocIn = () => {
                 />
               </div>
             </div>
+
             <div className=" mt-5 flex justify-between gap-3">
               <div className="w-full">
-                <p>ຜູ້ຮັບຜິດຊອບ</p>
-                <select
-                  onChange={(e) =>
-                    setDoc({ ...doc, part_demand_id: e.target.value })
-                  }
+                <p>ຂໍ້ມູນຜູ້ຮັບ</p>
+                <input
+                  type="text"
                   className="w-full border border-gray-300 rounded-md p-2"
-                >
-                  <option selected value={decodedObj.part_demand_id}>
-                    {decodedObj.part_demand_name}
-                  </option>
-                  {partDemands.map((item) => {
-                    if (decodedObj.part_demand_id !== item.part_demand_id) {
-                      return (
-                        <option value={item.part_demand_id}>
-                          {item.part_demand_name}
-                        </option>
-                      );
-                    }
-                  })}
-                </select>
+                  value={doc.destinationName}
+                  readOnly
+                />
               </div>
               <div className="w-full">
                 <p>ຂໍ້ມູນຕິດຕໍ່</p>
                 <input
                   type="text"
                   className="w-full border border-gray-300 rounded-md p-2"
-                  value={doc.phoneNumber}
+                  value={doc.destinationNumber}
                   readOnly
                 />
               </div>
@@ -292,11 +314,9 @@ const EditDocIn = () => {
                 <option selected value={decodedObj.status}>
                   {decodedObj.status}
                 </option>
-                {decodedObj.status === "success" ? (
-                  <option value={"await"}>await</option>
-                ) : (
-                  <option value={"success"}>success</option>
-                )}
+                {decodedObj.status == "ລໍຖ້າ" &&  <option value={"ກຳລັງດຳເນີນການ"}>ກຳລັງດຳເນີນການ</option>}
+                {decodedObj.status == "ກຳລັງດຳເນີນການ" &&  <option value={"ສຳເລັດ"}>ສຳເລັດ</option>}
+                {decodedObj.status == "ສຳເລັດ" &&  <option value={"ສຳເລັດ"}>ສຳເລັດ</option>}
               </select>
             </div>
           </div>

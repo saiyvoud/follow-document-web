@@ -10,6 +10,9 @@ import ShowDoc from "./ShowDoc";
 import { checkPermission } from "../../lib/checkpermission";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import ListDocIn from "../follow/ListDocIn";
+import { InsertFollowDocumentIn } from "../../api/followDocumentIn";
+import { FollowDocument } from "../../components/constants";
+import { GetDocumentType } from "../../api/documentType";
 
 const DocImport = () => {
   const [doc, setDoc] = useState({
@@ -19,6 +22,9 @@ const DocImport = () => {
     numberID: "",
     part_demand_id: "",
     part_demand_name: "",
+    destinationName: "",
+    destinationNumber: "",
+    sendDoc: "",
     phoneNumber: "",
     contactName: "",
     contactNumber: "",
@@ -39,17 +45,18 @@ const DocImport = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isForbidden, setIsForbidden] = useState(false);
   const [docsIn, setDocsIn] = useState([]);
-
+  const [docType, setDocsType] = useState([]);
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
     try {
-      const [res1, res2, res3] = await Promise.all([
+      const [res1, res2, res3, res4] = await Promise.all([
         GetAllFaculty(),
         GetAllPartDemand(),
         GetAllDocIn(),
+        GetDocumentType(),
       ]);
 
       if (res1.status === 403 || res2.status === 403) {
@@ -64,6 +71,7 @@ const DocImport = () => {
       if (res1.status === 200) setFacultys(res1?.data?.data);
       if (res2.status === 200) setPartDemands(res2?.data?.data);
       if (res3.status === 200) setDocsIn(res3?.data?.data);
+      if (res4.status === 200) setDocsType(res4?.data?.data);
       console.log(res3);
     } catch (error) {
       setIsForbidden(true);
@@ -81,15 +89,17 @@ const DocImport = () => {
     setIsLoading(true);
     const res = await InsertDocIn(
       doc.title,
-      doc.part_demand_id,
       doc.faculty_id,
       file,
       doc.numberID,
       doc.contactName,
       doc.contactNumber,
-      doc.docType,
       doc.date,
       doc.description,
+      doc.destinationName,
+      doc.destinationNumber,
+      doc.sendDoc,
+      doc.docType
     );
     if (res.status === 201) {
       ToastSuccess("ເພີ່ມເອກະສານສຳເລັດ");
@@ -116,6 +126,7 @@ const DocImport = () => {
         setFile(null);
         setDocShow(res.data?.data);
         const res4 = await GetAllDocIn();
+        console.log(res4.data.data);
         if (res4.status === 200) setDocsIn(res4?.data?.data);
       }
     } else {
@@ -223,18 +234,17 @@ const DocImport = () => {
                       <option selected value="">
                         -- ເລືອກ --
                       </option>
-                      <option selected value="ໃບສະເໜີ">
-                        ໃບສະເໜີ
-                      </option>
-                      <option selected value="ໃບນຳສົ່ງ">
-                        ໃບນຳສົ່ງ
-                      </option>
-                      <option selected value="ໃບລາຍງານ">
-                        ໃບລາຍງານ
-                      </option>
-                      <option selected value="ໃບລາພັກ">
-                        ໃບລາພັກ
-                      </option>
+                      {docType.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            selected
+                            value={item.document_type_id}
+                          >
+                            {item.docName}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                   <div className=" mt-5">
@@ -257,27 +267,54 @@ const DocImport = () => {
                       })}
                     </select>
                   </div>
-                  <div className="mt-5">
-                    <p>ຜູ້ຮັບຜິດຊອບ</p>
+                  <div className=" mt-5">
+                    <p>ສົ່ງຕໍ່ຫາໃຜ</p>
                     <select
-                      value={doc.part_demand_id}
+                      value={doc.sendDoc}
                       onChange={(e) =>
-                        setDoc({ ...doc, part_demand_id: e.target.value })
+                        setDoc({ ...doc, sendDoc: e.target.value })
                       }
                       className="w-full border border-gray-300 rounded-md p-2"
                       required
                     >
-                      <option selected value="">
-                        -- ເລືອກຜູ້ຮັບຜິດຊອບ --
+                      <option selected value="ເລຂາອະທິການ">
+                        ເລຂາອະທິການ
                       </option>
-                      {partDemands.map((item) => {
+                      {facultys.map((item) => {
                         return (
-                          <option value={item.part_demand_id}>
-                            {item.part_demand_name}
-                          </option>
+                          <option value={item.name}>{item.name}</option>
                         );
                       })}
                     </select>
+                  </div>
+
+                  <div className=" mt-5 flex gap-3">
+                    <div className="w-full">
+                      <p>ຂໍ້ມູນຜູ້ຮັບເອກະສານ:</p>
+                      <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-md p-2"
+                        placeholder="ຊື່ແລະນາມສະກຸນ"
+                        onChange={(e) =>
+                          setDoc({ ...doc, destinationName: e.target.value })
+                        }
+                        value={doc.destinationName}
+                        required
+                      />
+                    </div>
+                    <div className="w-full">
+                      <p>ຂໍ້ມູນຕິດຕໍ່ຜູ້ຮັບ:</p>
+                      <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-md p-2"
+                        placeholder="ເບີໂທ 20 30"
+                        onChange={(e) =>
+                          setDoc({ ...doc, destinationNumber: e.target.value })
+                        }
+                        value={doc.destinationNumber}
+                        required
+                      />
+                    </div>
                   </div>
                   <div className=" mt-5 flex gap-3">
                     <div className="w-full">
@@ -294,7 +331,7 @@ const DocImport = () => {
                       />
                     </div>
                     <div className="w-full">
-                      <p>ຂໍ້ມູນຕິດຕໍ່:</p>
+                      <p>ຂໍ້ມູນຕິດຕໍ່ຜູ້ສົ່ງ:</p>
                       <input
                         type="text"
                         className="w-full border border-gray-300 rounded-md p-2"
@@ -353,3 +390,26 @@ const DocImport = () => {
 };
 
 export default DocImport;
+
+// <div className="mt-5">
+// <p>ຜູ້ຮັບຜິດຊອບ</p>
+// <select
+//   value={doc.part_demand_id}
+//   onChange={(e) =>
+//     setDoc({ ...doc, part_demand_id: e.target.value })
+//   }
+//   className="w-full border border-gray-300 rounded-md p-2"
+//   required
+// >
+//   <option selected value="">
+//     -- ເລືອກຜູ້ຮັບຜິດຊອບ --
+//   </option>
+//   {partDemands.map((item) => {
+//     return (
+//       <option value={item.part_demand_id}>
+//         {item.part_demand_name}
+//       </option>
+//     );
+//   })}
+// </select>
+// </div>

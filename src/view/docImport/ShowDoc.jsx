@@ -26,7 +26,7 @@ const ShowDoc = (props) => {
                         <td className=' p-2 text-center'>{item?.name}</td>
                         <td className=' p-2 text-center'>{item?.title}</td>
                         <td className=' p-2 text-center'>{TimestampToDate(item?.createdAt)}</td>
-                        <td className=' p-2 text-center'>{item?.part_demand_name}</td>
+                        <td className=' p-2 text-center'>{item?.desti}</td>
                         <td className=' p-2 text-center'>{item?.phoneNumber}</td>
                         <td className=' p-2 text-center'>
                             {item.status === 'success' ? <span className=' p-1 rounded-lg text-green-500 font-bold bg-green-200'>{item.status}</span>
