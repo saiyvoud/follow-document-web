@@ -35,13 +35,28 @@ export const InsertDocIn = async (title, faculty_id, file, numberID,contactName,
         return error
     }
 }
-export const InsertDocOut = async (data) => {
+export const InsertDocOut = async (title, faculty_id, file, numberID,contactName,contactNumber,date,description,destinationName,destinationNumber,sendDoc,document_type_id) => {
     try {
-        return await api.post("api/document_out/insert", data);
+        const data = new FormData();
+        data.append('title', title);
+        data.append('part_demand_id', '');
+        data.append('faculty_id', faculty_id);
+        data.append('files', file);
+        data.append('numberID', numberID);
+        data.append('contactName', contactName);
+        data.append('contactNumber', contactNumber);
+        data.append('destinationName', destinationName);
+        data.append('destinationNumber', destinationNumber);
+        data.append('sendDoc', sendDoc);
+        data.append('document_type_id', document_type_id);
+        data.append('date', date);
+        data.append('description', description);
+        return await api.post("/api/document_out/insert", data);
     } catch (error) {
         return error
     }
 }
+
 
 export const GetAllDocIn = async () => {
     try {
@@ -61,6 +76,13 @@ export const GetAllDocOut = async () => {
 export const UpdateDocIn = async (id, data) => {
     try {
         return await api.put("/api/document_in/update/" + id, data);
+    } catch (error) {
+        return error
+    }
+}
+export const UpdateDocOut = async (id, data) => {
+    try {
+        return await api.put("/api/document_out/update/" + id, data);
     } catch (error) {
         return error
     }

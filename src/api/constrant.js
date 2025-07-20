@@ -28,3 +28,12 @@ api.interceptors.request.use(
 );
 
 export default api;
+
+export const FollowDocument = {
+  await: "ພະແນກຂາເຂົ້າ-ຂາອອກ",
+  progress: "ເລຂາອະທິການ",
+  padding: "ອະທິການຫລືຮອງ",
+  continue: "ກັບຄືນໄປທີ່ເລຂາອະທິການ",
+  success: "ກັບມາທີ່ພະແນກຂາເຂົ້າ-ຂາອອກ",
+  done: "ມາຮັບເອກະສານແລ້ວ",
+}

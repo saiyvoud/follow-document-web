@@ -1,127 +1,139 @@
 import React, { useEffect, useState } from "react";
-import { HiOutlineClipboardDocumentList, HiOutlineDocumentArrowDown } from "react-icons/hi2";
+import { HiOutlineDocumentArrowDown } from "react-icons/hi2";
 import { FaSave } from "react-icons/fa";
-import { GetAllPartSuppile } from "../../api/part_suppile";
 import { GetAllFaculty } from "../../api/faculty";
-import { BeatLoader } from "react-spinners";
-import { GetAllDocIn, GetAllDocOut, InsertDocOut, SearchDocOut } from "../../api/document";
+import { GetAllPartDemand } from "../../api/part_demand";
+
 import { ToastError, ToastSuccess } from "../../lib/toast";
-import { TimestampToDate } from "../../lib/date";
+import { BeatLoader } from "react-spinners";
 import ShowDoc from "./ShowDoc";
 import { checkPermission } from "../../lib/checkpermission";
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import ListDocOut from "../follow/ListDocOut";
+import { InsertFollowDocumentIn } from "../../api/followDocumentIn";
+import { FollowDocument } from "../../components/constants";
+import { GetDocumentType } from "../../api/documentType";
+import { GetAllDocOut, InsertDocOut, SearchDocOut } from "../../api/document";
+
 const DocExport = () => {
   const [doc, setDoc] = useState({
-    document_in_id: "",
-    part_suppile_id: "",
     faculty_id: "",
+    files: "",
+    name: "",
+    numberID: "",
+    part_demand_id: "",
+    part_demand_name: "",
+    destinationName: "",
+    destinationNumber: "",
+    sendDoc: "",
+    phoneNumber: "",
+    contactName: "",
+    contactNumber: "",
+    docType: "",
+    date: "",
+    description: "",
+    status: "",
+    title: "",
   });
+  console.log(doc);
   const [docShow, setDocShow] = useState();
-  const [docIn, setDocIn] = useState([]);
-  const [docInCurrent, setDocInCurrent] = useState([]);
-  const [numberID, setNumberID] = useState("");
   const [facultys, setFacultys] = useState([{ faculty_id: "", name: "" }]);
-  const [partSuppiles, setPartSuppiles] = useState([
-    { part_suppile_id: "", part_suppile_name: "" },
+  const [partDemands, setPartDemands] = useState([
+    { part_demand_id: "", part_demand_name: "" },
   ]);
+  const [file, setFile] = useState(null);
+  const [fileShow, setFileShow] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isForbidden, setIsForbidden] = useState(false);
   const [docsOut, setDocsOut] = useState([]);
+  const [docType, setDocsType] = useState([]);
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
     try {
-      const [resDocsIn, resFacultys, resPartSuppiles,resDocsOut] = await Promise.all([
-        GetAllDocIn(),
+      const [res1, res2, res3, res4] = await Promise.all([
         GetAllFaculty(),
-        GetAllPartSuppile(),
+        GetAllPartDemand(),
         GetAllDocOut(),
+        GetDocumentType(),
       ]);
-    
-     
-      // Nếu bất kỳ API nào trả về 403, thì dừng xử lý
-      if (
-        resDocsIn.status === 403 ||
-        resFacultys.status === 403 ||
-        resPartSuppiles.status === 403 || resDocsOut === 403
-      ) {
-        setIsForbidden(true); // Hoặc xử lý gì đó nếu không muốn render
+
+      if (res1.status === 403 || res2.status === 403) {
+        setIsForbidden(true);
         return;
       }
-
-      // Nếu thành công thì cập nhật state
-      if (resDocsIn.status === 200) {
-        setDocIn(resDocsIn.data?.data);
-      }
-      if (resFacultys.status === 200) {
-        setFacultys(resFacultys.data?.data);
-      }
-      if (resPartSuppiles.status === 200) {
-        setPartSuppiles(resPartSuppiles.data?.data);
-      }
+      const resDocsOut = await GetAllDocOut();
       if (resDocsOut?.status === 200) {
         setDocsOut(resDocsOut?.data?.data);
       }
+
+      if (res1.status === 200) setFacultys(res1?.data?.data);
+      if (res2.status === 200) setPartDemands(res2?.data?.data);
+      if (res3.status === 200) setDocsOut(res3?.data?.data);
+      if (res4.status === 200) setDocsType(res4?.data?.data);
+      console.log(res3);
     } catch (error) {
-      setIsForbidden(true); // Hoặc xử lý gì đó nếu không muốn render
+      setIsForbidden(true);
       return;
     }
   };
-
-  const handleNumberId = (e) => {
-    const query = e.target.value;
-    setNumberID(e.target.value);
-    if (query !== "") {
-      const findDocs = docIn.filter((item) =>
-        item.numberID.toLowerCase().includes(query.toLowerCase())
-      );
-      if (findDocs) {
-        setDocInCurrent(findDocs);
-      }
-    } else {
-      setDocInCurrent([]);
+  const handleFileChange = (e) => {
+    const selectedFile = e.target?.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
     }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const res = await InsertDocOut({
-      document_in_id: doc.document_in_id,
-      part_suppile_id: doc.part_suppile_id,
-      faculty_id: doc.faculty_id,
-    });
-    if (res.status === 403) {
-      ToastError("ບໍ່ມີສິດ");
-    } else if (res.status === 201) {
+    const res = await InsertDocOut(
+      doc.title,
+      doc.faculty_id,
+      file,
+      doc.numberID,
+      doc.contactName,
+      doc.contactNumber,
+      doc.date,
+      doc.description,
+      doc.destinationName,
+      doc.destinationNumber,
+      doc.sendDoc,
+      doc.docType
+    );
+    if (res.status === 201) {
+      ToastSuccess("ເພີ່ມເອກະສານສຳເລັດ");
+
       //get doc to show
-      const res = await SearchDocOut(numberID);
+      const res = await SearchDocOut(doc.numberID);
       if (res.status === 200) {
         setDoc({
-          document_in_id: "",
-          part_suppile_id: "",
           faculty_id: "",
+          files: "",
+          name: "",
+          numberID: "",
+          part_demand_id: "",
+          part_demand_name: "",
+          phoneNumber: "",
+          contactName: "",
+          contactNumber: "",
+          docType: "",
+          date: "",
+          status: "",
+          description: "",
+          title: "",
         });
-        setDocInCurrent([]);
-        setNumberID("");
-        ToastSuccess("ເພີ່ມເອກະສານສຳເລັດ");
+        setFile(null);
         setDocShow(res.data?.data);
-        const res2 = await GetAllDocOut();
-        if (res2?.status === 200) {
-          setDocsOut(res2?.data?.data);
-        }
+        const res4 = await GetAllDocOut();
+        console.log(res4.data.data);
+        if (res4.status === 200) setDocsOut(res4?.data?.data);
       }
     } else {
       ToastError(res?.response?.data?.error);
     }
     setIsLoading(false);
-  };
-
-  const handleSelectDoc = (id, numberid) => {
-    setDoc({ ...doc, document_in_id: id });
-    setDocInCurrent([]);
-    setNumberID(numberid);
   };
   if (!isForbidden && checkPermission("INSERT")) {
     return (
@@ -137,81 +149,205 @@ const DocExport = () => {
           {/* main content */}
           <form onSubmit={handleSubmit}>
             <div className="mt-0 px-5">
-              <div className="w-full ">
-                <div className="mt-5 relative">
-                  <p>ເລກທີເອກະສານຂາເຂົ້າ:</p>
-                  <input
-                    type="text"
-                    className="w-full border border-gray-300 rounded-md p-2"
-                    placeholder="ເລກທີຂາເຂົ້າ"
-                    value={numberID}
-                    onChange={handleNumberId}
-                    required
-                  />
-                  {docInCurrent.length > 0 && (
-                    <div className=" absolute top-16 w-full p-1 z-50 bg-white rounded-lg shadow-lg border-2">
-                      {docInCurrent.map((item) => (
-                        <div
-                          onClick={() =>
-                            handleSelectDoc(item.document_in_id, item.numberID)
-                          }
-                          className="p-2 hover:bg-slate-200 flex justify-start gap-3"
-                        >
-                          <p className="w-[80px]">{item.numberID}</p>
-                          <p className="w-[50px]">{item.title}</p>
-                          <p className="w-[200px]">{item.name}</p>
-                          <p className="w-[200px]">
-                            {TimestampToDate(item.createdAt)}
-                          </p>
-                        </div>
-                      ))}
+              <div className="flex justify-between items-start gap-10">
+                {/* left content */}
+                <div className="w-full">
+                  <div className="mt-5">
+                    <p>ເລກທີເອກະສານຂາອອກ:</p>
+                    <input
+                      type="text"
+                      onChange={(e) =>
+                        setDoc({ ...doc, numberID: e.target.value })
+                      }
+                      value={doc.numberID}
+                      className="w-full border border-gray-300 rounded-md p-2"
+                      placeholder="ເລກທີເອກະສານຂາອອກ"
+                      required
+                    />
+                  </div>
+                  <div className=" mt-5 flex gap-3">
+                    <div className="w-full">
+                      <p>ຊື່ເອກະສານ:</p>
+                      <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-md p-2"
+                        placeholder="ຊື່ເອກະສານ"
+                        onChange={(e) =>
+                          setDoc({ ...doc, title: e.target.value })
+                        }
+                        value={doc.title}
+                        required
+                      />
                     </div>
-                  )}
+                  </div>
+                  <div className=" mt-5 flex gap-3">
+                    <div className="w-full">
+                      <p>ຄຳອະທິບາຍເອກະສານ:</p>
+                      <textarea
+                        rows={5}
+                        className="w-full border border-gray-300 rounded-md p-2"
+                        placeholder="ຄຳອະທິບາຍເອກະສານ"
+                        onChange={(e) =>
+                          setDoc({ ...doc, description: e.target.value })
+                        }
+                        value={doc.description}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className=" mt-5 flex gap-3">
+                    <div className="w-full">
+                      <p>ວັນທີ່ສົ່ງເອກະສານ:</p>
+                      <input
+                        type="datetime-local"
+                        className="w-full border border-gray-300 rounded-md p-2"
+                        placeholder="ຄຳອະທິບາຍເອກະສານ"
+                        onChange={(e) =>
+                          setDoc({ ...doc, date: e.target.value })
+                        }
+                        value={doc.date}
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className=" mt-5">
-                  <p>ຄະນະ</p>
-                  <select
-                    value={doc.faculty_id}
-                    onChange={(e) =>
-                      setDoc({ ...doc, faculty_id: e.target.value })
-                    }
-                    className="w-full border border-gray-300 rounded-md p-2"
-                    required
-                  >
-                    <option selected value="">
-                      -- ເລືອກຄະນະ --
-                    </option>
-                    {facultys.map((item) => {
-                      return (
-                        <option value={item.faculty_id}>{item.name}</option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div className="mt-5">
-                  <p>ຜູ້ສະໜອງ</p>
-                  <select
-                    value={doc.part_suppile_id}
-                    onChange={(e) =>
-                      setDoc({ ...doc, part_suppile_id: e.target.value })
-                    }
-                    className="w-full border border-gray-300 rounded-md p-2"
-                    required
-                  >
-                    <option selected value="">
-                      -- ເລືອກຜູ້ຮັບ/ປາຍທາງ --
-                    </option>
-                    {partSuppiles.map((item) => {
-                      return (
-                        <option value={item.part_suppile_id}>
-                          {item.part_suppile_name}
-                        </option>
-                      );
-                    })}
-                  </select>
+                {/* right content */}
+                <div className="w-full">
+                  <div className=" mt-5">
+                    <p>ໄຟລແນບ</p>
+                    <input
+                      type="file"
+                      onChange={handleFileChange}
+                      className="w-full border border-gray-300 p-2"
+                      required
+                    />
+                  </div>
+                  <div className=" mt-5">
+                    <p>ປະເພດເອກະສານ</p>
+                    <select
+                      value={doc.docType}
+                      onChange={(e) =>
+                        setDoc({ ...doc, docType: e.target.value })
+                      }
+                      className="w-full border border-gray-300 rounded-md p-2"
+                      required
+                    >
+                      <option selected value="">
+                        -- ເລືອກ --
+                      </option>
+                      {docType.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            selected
+                            value={item.document_type_id}
+                          >
+                            {item.docName}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className=" mt-5">
+                    <p>ພາກສ່ວນ</p>
+                    <select
+                      value={doc.faculty_id}
+                      onChange={(e) =>
+                        setDoc({ ...doc, faculty_id: e.target.value })
+                      }
+                      className="w-full border border-gray-300 rounded-md p-2"
+                      required
+                    >
+                      <option selected value="">
+                        -- ພາກສ່ວນ 13ຄະນະ ຫ້ອງການ ພາກສ່ວນນອກ --
+                      </option>
+                      {facultys.map((item) => {
+                        return (
+                          <option value={item.faculty_id}>{item.name}</option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className=" mt-5">
+                    <p>ສົ່ງຕໍ່ຫາໃຜ</p>
+                    <select
+                      value={doc.sendDoc}
+                      onChange={(e) =>
+                        setDoc({ ...doc, sendDoc: e.target.value })
+                      }
+                      className="w-full border border-gray-300 rounded-md p-2"
+                      required
+                    >
+                      <option selected value="ເລຂາອະທິການ">
+                        ເລຂາອະທິການ
+                      </option>
+                      {facultys.map((item) => {
+                        return (
+                          <option value={item.name}>{item.name}</option>
+                        );
+                      })}
+                    </select>
+                  </div>
+
+                  <div className=" mt-5 flex gap-3">
+                    <div className="w-full">
+                      <p>ຂໍ້ມູນຜູ້ຮັບເອກະສານ:</p>
+                      <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-md p-2"
+                        placeholder="ຊື່ແລະນາມສະກຸນ"
+                        onChange={(e) =>
+                          setDoc({ ...doc, destinationName: e.target.value })
+                        }
+                        value={doc.destinationName}
+                        required
+                      />
+                    </div>
+                    <div className="w-full">
+                      <p>ຂໍ້ມູນຕິດຕໍ່ຜູ້ຮັບ:</p>
+                      <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-md p-2"
+                        placeholder="ເບີໂທ 20 30"
+                        onChange={(e) =>
+                          setDoc({ ...doc, destinationNumber: e.target.value })
+                        }
+                        value={doc.destinationNumber}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className=" mt-5 flex gap-3">
+                    <div className="w-full">
+                      <p>ຂໍ້ມູນຜູ້ສົ່ງເອກະສານ:</p>
+                      <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-md p-2"
+                        placeholder="ຊື່ແລະນາມສະກຸນ"
+                        onChange={(e) =>
+                          setDoc({ ...doc, contactName: e.target.value })
+                        }
+                        value={doc.contactName}
+                        required
+                      />
+                    </div>
+                    <div className="w-full">
+                      <p>ຂໍ້ມູນຕິດຕໍ່ຜູ້ສົ່ງ:</p>
+                      <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-md p-2"
+                        placeholder="ເບີໂທ 20 30"
+                        onChange={(e) =>
+                          setDoc({ ...doc, contactNumber: e.target.value })
+                        }
+                        value={doc.contactNumber}
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="mt-3 flex justify-end items-center gap-3">
+              <div className="mt-5 flex justify-end items-center gap-3">
                 {!isLoading ? (
                   <button
                     type="submit"
@@ -230,19 +366,19 @@ const DocExport = () => {
           </form>
         </div>
         <div className="mt-5 mb-5 pb-3 w-full bg-white rounded-lg">
-        <div className="flex justify-start items-center gap-3 p-3">
-          <HiOutlineClipboardDocumentList
-            size={20}
-            className=" text-teal-500"
-          />
-          <span className=" text-teal-500 text-lg font-bold">
-            ລາຍການ ເອກະສານ ຂາອອກ
-          </span>
+          <div className="flex justify-start items-center gap-3 p-3">
+            <HiOutlineClipboardDocumentList
+              size={20}
+              className=" text-teal-500"
+            />
+            <span className=" text-teal-500 text-lg font-bold">
+              ລາຍການ ເອກະສານ ຂາອອກ
+            </span>
+          </div>
+          <div className="mt-5 px-5 ">
+            <ListDocOut props={docsOut} />
+          </div>
         </div>
-        <div className="mt-5 px-5 ">
-          <ListDocOut props={docsOut} />
-        </div>
-      </div>
       </>
     );
   } else {
@@ -255,3 +391,26 @@ const DocExport = () => {
 };
 
 export default DocExport;
+
+// <div className="mt-5">
+// <p>ຜູ້ຮັບຜິດຊອບ</p>
+// <select
+//   value={doc.part_demand_id}
+//   onChange={(e) =>
+//     setDoc({ ...doc, part_demand_id: e.target.value })
+//   }
+//   className="w-full border border-gray-300 rounded-md p-2"
+//   required
+// >
+//   <option selected value="">
+//     -- ເລືອກຜູ້ຮັບຜິດຊອບ --
+//   </option>
+//   {partDemands.map((item) => {
+//     return (
+//       <option value={item.part_demand_id}>
+//         {item.part_demand_name}
+//       </option>
+//     );
+//   })}
+// </select>
+// </div>

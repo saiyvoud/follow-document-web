@@ -27,7 +27,9 @@ import EditSuppile from "../view/doc_section/EditSuppile";
 import AddDemand from "../view/doc_section/AddDemand";
 import AddSuppile from "../view/doc_section/AddSuppile";
 import ReportView from "../view/report/report";
-
+import DocType from "../view/docType/docType";
+import AddDocType from "../view/docType/addDocType";
+import EditDocType from "../view/docType/EditDocType";
 const RouterPath = () => {
 
   
@@ -96,6 +98,9 @@ const RouterPath = () => {
                 { path: "/section-view/suppile/add", element: <AddSuppile /> },
                 { path: "/role", element: <MyRole /> },
                 { path: "/report", element: <ReportView /> },
+                { path: "/doctype", element: <DocType /> },
+                { path: "/doctype/add-doctype", element: <AddDocType /> },
+                { path: "/doctype/edit-doctype/:data", element: <EditDocType /> },
 
             ],
         },

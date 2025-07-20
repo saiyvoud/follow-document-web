@@ -14,6 +14,7 @@ import {
 import { ToastError, ToastSuccess } from "../../lib/toast";
 import Swal from "sweetalert2";
 import { GetDocumentType } from "../../api/documentType";
+import { FollowDocument } from "../../api/constrant";
 
 const EditDocIn = () => {
   const { data } = useParams();
@@ -88,7 +89,8 @@ const EditDocIn = () => {
           destinationName: doc.destinationName,
           destinationNumber: doc.destinationNumber,
           sendDoc: doc.sendDoc,
-          documnet_type_id: doc.document_type_id,
+          document_type_id: doc.document_type_id,
+          status: doc.status
         };
         const [update, x] = await Promise.all([
           UpdateDocIn(doc.document_in_id, dataUpdate),
@@ -121,6 +123,7 @@ const EditDocIn = () => {
       }
     });
   };
+  console.log(doc);
   return (
     <div className="mt-5 pb-3 w-full bg-white rounded-lg">
       <div className="flex justify-start items-center gap-3 p-3">
@@ -197,6 +200,7 @@ const EditDocIn = () => {
                   -- ເລືອກ --
                 </option>
                 {docType.map((item, index) => {
+                  
                   return (
                     <>
                       {item.document_type_id === doc.document_type_id ? (
@@ -314,9 +318,12 @@ const EditDocIn = () => {
                 <option selected value={decodedObj.status}>
                   {decodedObj.status}
                 </option>
-                {decodedObj.status == "ລໍຖ້າ" &&  <option value={"ກຳລັງດຳເນີນການ"}>ກຳລັງດຳເນີນການ</option>}
-                {decodedObj.status == "ກຳລັງດຳເນີນການ" &&  <option value={"ສຳເລັດ"}>ສຳເລັດ</option>}
-                {decodedObj.status == "ສຳເລັດ" &&  <option value={"ສຳເລັດ"}>ສຳເລັດ</option>}
+                <option value={FollowDocument.await}>{FollowDocument.await}</option>
+                <option value={FollowDocument.progress}>{FollowDocument.progress}</option>
+                <option value={FollowDocument.padding}>{FollowDocument.padding}</option>
+                <option value={FollowDocument.continue}>{FollowDocument.continue}</option>
+                <option value={FollowDocument.success}>{FollowDocument.success}</option>
+                <option value={FollowDocument.done}>{FollowDocument.done}</option>
               </select>
             </div>
           </div>
