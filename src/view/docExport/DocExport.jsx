@@ -135,9 +135,9 @@ const DocExport = () => {
     }
     setIsLoading(false);
   };
-  if (!isForbidden && checkPermission("INSERT")) {
-    return (
-      <>
+  return (
+    <>
+      {!isForbidden && checkPermission("INSERT") &&
         <div className="mt-5 pb-3 w-full bg-white rounded-lg">
           <div className="flex justify-start items-center gap-3 p-3">
             <HiOutlineDocumentArrowDown size={20} className=" text-teal-500" />
@@ -365,29 +365,32 @@ const DocExport = () => {
             </div>
           </form>
         </div>
-        <div className="mt-5 mb-5 pb-3 w-full bg-white rounded-lg">
-          <div className="flex justify-start items-center gap-3 p-3">
-            <HiOutlineClipboardDocumentList
-              size={20}
-              className=" text-teal-500"
-            />
-            <span className=" text-teal-500 text-lg font-bold">
-              ລາຍການ ເອກະສານ ຂາອອກ
-            </span>
-          </div>
-          <div className="mt-5 px-5 ">
-            <ListDocOut props={docsOut} />
-          </div>
+      }
+      <div className="mt-5 mb-5 pb-3 w-full bg-white rounded-lg">
+        <div className="flex justify-start items-center gap-3 p-3">
+          <HiOutlineClipboardDocumentList
+            size={20}
+            className=" text-teal-500"
+          />
+          <span className=" text-teal-500 text-lg font-bold">
+            ລາຍການ ເອກະສານ ຂາອອກ
+          </span>
         </div>
-      </>
-    );
-  } else {
-    return (
-      <div className="text-red-500 text-center mt-10">
-        ທ່ານບໍ່ມີສິດເຂົ້າເຖິງໜ້ານີ້ (403 Forbidden)
+        <div className="mt-5 px-5 ">
+          <ListDocOut props={docsOut} />
+        </div>
       </div>
-    );
-  }
+    </>
+  );
+  // if () {
+
+  // } else {
+  //   return (
+  //     <div className="text-red-500 text-center mt-10">
+  //       ທ່ານບໍ່ມີສິດເຂົ້າເຖິງໜ້ານີ້ (403 Forbidden)
+  //     </div>
+  //   );
+  // }
 };
 
 export default DocExport;

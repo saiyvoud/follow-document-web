@@ -40,7 +40,7 @@ const EditDocOut = () => {
     document_type_id: "",
     date: "",
     description: "",
-    status: "",
+    statusOut: "",
     title: "",
   });
   const [facultys, setFacultys] = useState([{ faculty_id: "", name: "" }]);
@@ -91,7 +91,7 @@ const EditDocOut = () => {
           destinationNumber: doc.destinationNumber,
           sendDoc: doc.sendDoc,
           document_type_id: doc.document_type_id,
-          statusOut: doc.status,
+          statusOut: doc.statusOut,
         };
         const update = await UpdateDocOut(doc.document_out_id, dataUpdate);
 
@@ -315,7 +315,8 @@ const EditDocOut = () => {
             <div className=" mt-5">
               <p>ສະຖານະ</p>
               <select
-                onChange={(e) => setDoc({ ...doc, status: e.target.value })}
+                value={doc.statusOut}
+                onChange={(e) => setDoc({ ...doc, statusOut: e.target.value })}
                 className="w-full border border-gray-300 rounded-md p-2"
               >
                 <option selected value={decodedObj.status}>

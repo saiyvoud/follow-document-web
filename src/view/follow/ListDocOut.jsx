@@ -29,7 +29,7 @@ const ListDocOut = (props) => {
         if (selectStatus === 'all') {
             setDocuments(data);
         } else {
-            const findDocs = data.filter(item => item.status === selectStatus);
+            const findDocs = data.filter(item => item.statusOut === selectStatus);
             if (findDocs) {
                 setDocuments(findDocs);
             }
@@ -103,9 +103,9 @@ const ListDocOut = (props) => {
                                     <td className=' p-2 text-center'>{item?.contactNumber}</td>
                                  
                                     <td className=' p-2 text-center'>
-                                        {item.status === 'ສຳເລັດ' ? <span className=' p-1 rounded-lg text-green-500 font-bold bg-green-200'>{item.status}</span>
-                                            : item.status === 'ລໍຖ້າ' ? <span className='p-1 rounded-lg text-yellow-500 font-bold bg-yellow-200'>{item.status}</span> :
-                                                <span className='p-1 rounded-lg text-blue-500 font-bold bg-blue-200'>{item.status}</span>
+                                        {item.statusOut === 'ສຳເລັດ' ? <span className=' p-1 rounded-lg text-green-500 font-bold bg-green-200'>{item.statusOut}</span>
+                                            : item.statusOut === 'ລໍຖ້າ' ? <span className='p-1 rounded-lg text-yellow-500 font-bold bg-yellow-200'>{item.statusOut}</span> :
+                                                <span className='p-1 rounded-lg text-blue-500 font-bold bg-blue-200'>{item.statusOut}</span>
                                         }
                                     </td>
                                     <td>

@@ -5,7 +5,7 @@ export const checkPermission = (name) => {
    
     if (temp) {
         const user = JSON.parse(temp);
-        console.log(user);
+        // console.log(user);
         const permissions = user?.permissions;
         if (permissions) {
             const hasRead = permissions.split(',').includes(name);
