@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TimestampToDate } from "../../lib/date";
 import { NavLink } from "react-router-dom";
 import { checkPermission } from "../../lib/checkpermission";
-import { FollowDocument } from "../../api/constrant";
+import { ConvertStatus, FollowDocument } from "../../api/constrant";
 
 const ListDocIn = (props) => {
   const [documents, setDocuments] = useState([]);
@@ -50,18 +50,18 @@ const ListDocIn = (props) => {
           placeholder="ລະຫັດເອກະສານ"
         />
         <select
-                    onChange={(e) => setSelectStatus(e.target.value)}
-                    className=' w-[20%] border-2 border-gray-300 rounded-lg p-2'
-                >
-                    <option value="all">ທຸກສະຖານະ</option>
-                    <option value={FollowDocument.await}>{FollowDocument.await}</option>
-                    <option value={FollowDocument.progress}>{FollowDocument.progress}</option>
-                    <option value={FollowDocument.padding}>{FollowDocument.padding}</option>
-                    <option value={FollowDocument.continue}>{FollowDocument.continue}</option>
-                    <option value={FollowDocument.success}>{FollowDocument.success}</option>
-                    <option value={FollowDocument.done}>{FollowDocument.done}</option>
-                   
-                </select>
+          onChange={(e) => setSelectStatus(e.target.value)}
+          className=' w-[20%] border-2 border-gray-300 rounded-lg p-2'
+        >
+          <option value="all">ທຸກສະຖານະ</option>
+          <option value={FollowDocument.await}>{FollowDocument.await}</option>
+          <option value={FollowDocument.progress}>{FollowDocument.progress}</option>
+          <option value={FollowDocument.padding}>{FollowDocument.padding}</option>
+          <option value={FollowDocument.continue}>{FollowDocument.continue}</option>
+          <option value={FollowDocument.success}>{FollowDocument.success}</option>
+          <option value={FollowDocument.done}>{FollowDocument.done}</option>
+
+        </select>
         {/* <button type='submit' className=' bg-blue-500 p-2 rounded-lg'><FaSearch size={25} color='white' /></button> */}
       </div>
       <div className="w-full mt-10">
@@ -150,17 +150,17 @@ const ListDocIn = (props) => {
                     <td className=" p-2 text-center">{item?.contactNumber}</td>
 
                     <td className=" p-2 text-center">
-                      {item.status === "ສຳເລັດ" ? (
+                      {ConvertStatus(item.status) === "ສຳເລັດ" ? (
                         <span className=" p-1 rounded-lg text-green-500 font-bold bg-green-200">
-                          {item.status}
+                          {ConvertStatus(item.status)}
                         </span>
-                      ) : item.status === "ລໍຖ້າ" ? (
+                      ) : ConvertStatus(item.status) === "ລໍຖ້າ" ? (
                         <span className="p-1 rounded-lg text-yellow-500 font-bold bg-yellow-200">
-                          {item.status}
+                          {ConvertStatus(item.status)}
                         </span>
                       ) : (
                         <span className="p-1 rounded-lg text-blue-500 font-bold bg-blue-200">
-                          {item.status}
+                          {ConvertStatus(item.status)}
                         </span>
                       )}
                     </td>

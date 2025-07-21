@@ -9,6 +9,7 @@ import { GetAllDocIn, GetAllDocOut } from "../../api/document";
 import ListDocIn from "../follow/ListDocIn";
 import { ExportToXLSX } from "./exportCSV";
 import { checkPermission } from "../../lib/checkpermission";
+import { ConvertStatus } from "../../api/constrant";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -300,17 +301,17 @@ const ReportView = () => {
                     <td className=" p-2 text-center">{item?.contactNumber}</td>
 
                     <td className=" p-2 text-center">
-                      {item.status === "ສຳເລັດ" ? (
+                      {ConvertStatus(item.status || item.statusOut) === "ສຳເລັດ" ? (
                         <span className=" p-1 rounded-lg text-green-500 font-bold bg-green-200">
-                          {item.status}
+                          {ConvertStatus(item.status || item.statusOut)}
                         </span>
-                      ) : item.status === "ລໍຖ້າ" ? (
+                      ) : ConvertStatus(item.status || item.statusOut) === "ລໍຖ້າ" ? (
                         <span className="p-1 rounded-lg text-yellow-500 font-bold bg-yellow-200">
-                          {item.status}
+                          {ConvertStatus(item.status || item.statusOut)}
                         </span>
                       ) : (
                         <span className="p-1 rounded-lg text-blue-500 font-bold bg-blue-200">
-                          {item.status || item.statusOut}
+                          {ConvertStatus(item.status || item.statusOut)}
                         </span>
                       )}
                     </td>

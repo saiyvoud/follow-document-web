@@ -30,10 +30,28 @@ api.interceptors.request.use(
 export default api;
 
 export const FollowDocument = {
-  await: "ພະແນກຂາເຂົ້າ-ຂາອອກ",
-  progress: "ເລຂາອະທິການ",
-  padding: "ອະທິການຫລືຮອງ",
-  continue: "ກັບຄືນໄປທີ່ເລຂາອະທິການ",
-  success: "ກັບມາທີ່ພະແນກຂາເຂົ້າ-ຂາອອກ",
-  done: "ມາຮັບເອກະສານແລ້ວ",
+  await: "ພະແນກຂາເຂົ້າ-ຂາອອກ", //ລໍຖ້າ
+  progress: "ເລຂາອະທິການ", //ກຳລັງດຳເນີນການ
+  padding: "ອະທິການຫລືຮອງ", //ກຳລັງດຳເນີນການ
+  continue: "ກັບຄືນໄປທີ່ເລຂາອະທິການ",  //ກຳລັງດຳເນີນການ
+  success: "ກັບມາທີ່ພະແນກຂາເຂົ້າ-ຂາອອກ", //ສຳເລັດ
+  done: "ມາຮັບເອກະສານແລ້ວ", //ສຳເລັດ
+}
+export const ConvertStatus = (status) => {
+  switch (status) {
+    case FollowDocument.await:
+      return "ລໍຖ້າ";
+    case FollowDocument.progress:
+      return "ກຳລັງດຳເນີນການ";
+    case FollowDocument.padding:
+      return "ກຳລັງດຳເນີນການ";
+    case FollowDocument.continue:
+      return "ກຳລັງດຳເນີນການ";
+    case FollowDocument.success:
+      return "ສຳເລັດ";
+    case FollowDocument.done:
+      return "ສຳເລັດ";
+    default:
+      return "ລໍຖ້າ";
+  }
 }

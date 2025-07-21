@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TimestampToDate } from '../../lib/date';
 import { NavLink } from 'react-router-dom';
 import { checkPermission } from '../../lib/checkpermission';
-import { FollowDocument } from '../../api/constrant';
+import { ConvertStatus, FollowDocument } from '../../api/constrant';
 const ListDocOut = (props) => {
     const [documents, setDocuments] = useState([]);
     const [selectStatus, setSelectStatus] = useState("");
@@ -57,7 +57,7 @@ const ListDocOut = (props) => {
                     <option value={FollowDocument.continue}>{FollowDocument.continue}</option>
                     <option value={FollowDocument.success}>{FollowDocument.success}</option>
                     <option value={FollowDocument.done}>{FollowDocument.done}</option>
-                   
+
                 </select>
                 {/* <button type='submit' className=' bg-blue-500 p-2 rounded-lg'><FaSearch size={25} color='white' /></button> */}
             </div>
@@ -89,24 +89,33 @@ const ListDocOut = (props) => {
                                     <td className=' p-2 text-center'>{item?.title}</td>
                                     <td className=' p-2 text-center'>{item?.description}</td>
                                     <td className=' p-2 text-center'>{TimestampToDate(item?.date)}</td>
-                                    
+
                                     <td className=' p-2 text-center'>
-                                    <a href={item.files} target="_blank" rel="noopener noreferrer" className='text-sky-600 h  hover: border-b-2 hover:border-sky-600'>ເບິ່ງໄຟຣແນບ</a>
+                                        <a href={item.files} target="_blank" rel="noopener noreferrer" className='text-sky-600 h  hover: border-b-2 hover:border-sky-600'>ເບິ່ງໄຟຣແນບ</a>
                                     </td>
                                     <td className=' p-2 text-center'>{item?.docName}</td>
                                     <td className=' p-2 text-center'>{item?.sendDoc}</td>
                                     <td className=' p-2 text-center'>{item?.name}</td>
                                     <td className=' p-2 text-center'>{item?.destinationName}</td>
                                     <td className=' p-2 text-center'>{item?.destinationNumber}</td>
-                                   
+
                                     <td className=' p-2 text-center'>{item?.contactName}</td>
                                     <td className=' p-2 text-center'>{item?.contactNumber}</td>
-                                 
+
                                     <td className=' p-2 text-center'>
-                                        {item.statusOut === 'ສຳເລັດ' ? <span className=' p-1 rounded-lg text-green-500 font-bold bg-green-200'>{item.statusOut}</span>
-                                            : item.statusOut === 'ລໍຖ້າ' ? <span className='p-1 rounded-lg text-yellow-500 font-bold bg-yellow-200'>{item.statusOut}</span> :
-                                                <span className='p-1 rounded-lg text-blue-500 font-bold bg-blue-200'>{item.statusOut}</span>
-                                        }
+                                        {ConvertStatus(item.statusOut) === "ສຳເລັດ" ? (
+                                            <span className=" p-1 rounded-lg text-green-500 font-bold bg-green-200">
+                                                {ConvertStatus(item.statusOut)}
+                                            </span>
+                                        ) : ConvertStatus(item.statusOut) === "ລໍຖ້າ" ? (
+                                            <span className="p-1 rounded-lg text-yellow-500 font-bold bg-yellow-200">
+                                                {ConvertStatus(item.statusOut)}
+                                            </span>
+                                        ) : (
+                                            <span className="p-1 rounded-lg text-blue-500 font-bold bg-blue-200">
+                                                {ConvertStatus(item.statusOut)}
+                                            </span>
+                                        )}
                                     </td>
                                     <td>
                                         <div className='flex justify-center items-center'>
