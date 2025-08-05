@@ -3,6 +3,7 @@ import { TimestampToDate } from "../../lib/date";
 import { NavLink } from "react-router-dom";
 import { checkPermission } from "../../lib/checkpermission";
 import { ConvertStatus, FollowDocument } from "../../api/constrant";
+import { Edit } from "lucide-react";
 
 const ListDocIn = (props) => {
   const [documents, setDocuments] = useState([]);
@@ -172,7 +173,7 @@ const ListDocIn = (props) => {
                             to={"/doc-follow/doc-in/edit/" + base64}
                             className="ms-2 shadow-lg p-1 bg-blue-200 rounded-lg"
                           >
-                            ແກ້ໄຂ
+                            <Edit/>
                           </NavLink>
                         )}
                       </div>

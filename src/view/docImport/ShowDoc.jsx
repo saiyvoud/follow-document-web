@@ -1,6 +1,7 @@
 import React from 'react'
 import { TimestampToDate } from '../../lib/date';
 import { NavLink } from 'react-router-dom';
+import { Edit } from 'lucide-react';
 const ShowDoc = (props) => {
     // console.log(props)
     const item = props.data[0]

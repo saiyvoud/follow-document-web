@@ -47,10 +47,24 @@ const DocExport = () => {
   const [isForbidden, setIsForbidden] = useState(false);
   const [docsOut, setDocsOut] = useState([]);
   const [docType, setDocsType] = useState([]);
+  const [docNumber, setDocNumber] = useState([]);
+
   useEffect(() => {
     fetchData();
   }, []);
+  useEffect(() => {
+    if (doc.numberID != "") {
+      search();
+    } else {
+      setDocNumber([]);
+    }
+  }, [doc.numberID]);
 
+  const search = async () => {
+    const result = await SearchDocOut(doc.numberID);
+    if (result.status === 200) setDocNumber(result.data?.data);
+    console.log(result);
+  };
   const fetchData = async () => {
     try {
       const [res1, res2, res3, res4] = await Promise.all([
@@ -108,6 +122,7 @@ const DocExport = () => {
       //get doc to show
       const res = await SearchDocOut(doc.numberID);
       if (res.status === 200) {
+        window.location.reload();
         setDoc({
           faculty_id: "",
           files: "",
@@ -137,7 +152,7 @@ const DocExport = () => {
   };
   return (
     <>
-      {!isForbidden && checkPermission("INSERT") &&
+      {!isForbidden && checkPermission("INSERT") && (
         <div className="mt-5 pb-3 w-full bg-white rounded-lg">
           <div className="flex justify-start items-center gap-3 p-3">
             <HiOutlineDocumentArrowDown size={20} className=" text-teal-500" />
@@ -152,7 +167,7 @@ const DocExport = () => {
               <div className="flex justify-between items-start gap-10">
                 {/* left content */}
                 <div className="w-full">
-                  <div className="mt-5">
+                  <div className="mt-5 relative">
                     <p>ເລກທີເອກະສານຂາອອກ:</p>
                     <input
                       type="text"
@@ -164,6 +179,22 @@ const DocExport = () => {
                       placeholder="ເລກທີເອກະສານຂາອອກ"
                       required
                     />
+                    {docNumber.length > 0 && (
+                      <div className=" bg-white shadow-lg  absolute top-10 p-2 left-20 rounded-lg">
+                        {docNumber.map((item) => (
+                          <p
+                            className="hover:bg-slate-600"
+                            onClick={() => {
+                              setDoc({ ...doc, numberID: item.numberID });
+                              setDocNumber([])
+                            }}
+                          >
+                            {" "}
+                            {item.numberID}
+                          </p>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <div className=" mt-5 flex gap-3">
                     <div className="w-full">
@@ -282,9 +313,7 @@ const DocExport = () => {
                         ເລຂາອະທິການ
                       </option>
                       {facultys.map((item) => {
-                        return (
-                          <option value={item.name}>{item.name}</option>
-                        );
+                        return <option value={item.name}>{item.name}</option>;
                       })}
                     </select>
                   </div>
@@ -365,7 +394,7 @@ const DocExport = () => {
             </div>
           </form>
         </div>
-      }
+      )}
       <div className="mt-5 mb-5 pb-3 w-full bg-white rounded-lg">
         <div className="flex justify-start items-center gap-3 p-3">
           <HiOutlineClipboardDocumentList
